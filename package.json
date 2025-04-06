@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+  "start": "ts-node Backend/index.ts",
   "test": "mocha --require ts-node/register Backend/test/FoodManager.spec.ts"
 },
   "repository": {
@@ -13,29 +14,22 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/AndrewLi200504/food-expiry-guardian-angel/issues"
   },
   "homepage": "https://github.com/AndrewLi200504/food-expiry-guardian-angel#readme",
   "devDependencies": {
     "@types/chai": "^5.2.1",
+    "@types/express": "^5.0.1",
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.14.0",
     "chai": "^5.2.0",
     "mocha": "^11.1.0",
+    "nodemon": "^3.1.9",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
-  }
-  ,
-  "type": "module",
-  "devDependencies": {
-    "@types/chai": "^5.2.1",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "^22.14.0",
-    "chai": "^5.2.0",
-    "mocha": "^11.1.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
   }
 }

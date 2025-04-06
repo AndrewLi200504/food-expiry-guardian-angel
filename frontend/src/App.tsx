@@ -37,7 +37,7 @@ function App() {
 
   const [name, setName] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
-  const [updatedExpiryDate, setupdatedExpiryDate] = useState('');
+  // const [updatedExpiryDate, setupdatedExpiryDate] = useState('');
 
 
   const handleSubmit = async (e: FormEvent) => {
@@ -105,20 +105,20 @@ function App() {
       statusClass = 'green';
     }
 
-    function openInputField(id : number): import("react").ReactNode {
+//     function openInputField(id : number): import("react").ReactNode {
      
-     return <div>
-      <label>Expiry Date (YYYY-MM-DD): </label>
-      <input
-        value={updatedExpiryDate}
-        onChange={(e) => setupdatedExpiryDate(e.target.value)}
-        placeholder="2025-12-31"
-        required
+//      return <div>
+//       <label>Expiry Date (YYYY-MM-DD): </label>
+//       <input
+//         value={updatedExpiryDate}
+//         onChange={(e) => setupdatedExpiryDate(e.target.value)}
+//         placeholder="2025-12-31"
+//         required
 
-      />
-  <button onClick={() => handleUpdate(id, updatedExpiryDate)}>Save</button>
-</div>
-      }
+//       />
+//   <button onClick={() => handleUpdate(id, updatedExpiryDate)}>Save</button>
+// </div>
+//       }
 
     return (
       <li key={food.id} className={`food-card ${statusClass}`}>
@@ -129,10 +129,10 @@ function App() {
         <div className="food-right">
         
         
-        <button>
+        {/* <button> */}
 
-        <button onClick={() => openInputField(food.id)}>Update</button>
-        </button>
+        {/* <button onClick={() => openInputField(food.id)}>Update</button> */}
+        {/* </button> */}
 
           <button className="delete-btn" onClick={() => handleDelete(food.id)}>X</button>
         </div>
@@ -154,6 +154,7 @@ function App() {
       <div>
         <label>Expiry Date (YYYY-MM-DD): </label>
         <input
+          type="date"
           value={expiryDate}
           onChange={(e) => setExpiryDate(e.target.value)}
           placeholder="2025-12-31"
@@ -173,9 +174,9 @@ function App() {
 
 export default App;
 
-function handleUpdate(id: number, updatedExpiryDate: string): import("react").ReactNode {
-  fetch("/:id/:updated",(res,rep)=>{
+// function handleUpdate(id: number, updatedExpiryDate: string): import("react").ReactNode {
+//   fetch("/:id/:updated",(res,rep)=>{
 
 
-  })
-}
+//   })
+

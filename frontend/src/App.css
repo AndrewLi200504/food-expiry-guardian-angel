@@ -1,66 +1,103 @@
+/* Core Food Card Layout */
 .food-card {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ce1f1f;
-  border-radius: 12px;
-  padding: 12px 16px;
-  margin-bottom: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: 0.2s ease-in-out;
+  justify-content: space-between;  /* Keeps the left & right sections spaced */
+  align-items: center;  /* Vertically align elements */
+  border-left: 6px solid;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, background-color 0.2s;
+  width: 100%;  /* Ensure card stretches across the container */
 }
 
+.food-card:hover {
+  transform: scale(1.02);
+}
 
-
+/* Status Colors */
 .food-card.red {
-  background-color: #ff4d4f;
+  border-left-color: #ff4d4f;
+  background-color: #ffeaea;
 }
 
 .food-card.orange {
-  background-color: #faad14;
+  border-left-color: #faad14;
+  background-color: #fff7e6;
 }
 
 .food-card.green {
-  background-color: #52c41a;
+  border-left-color: #52c41a;
+  background-color: #f6ffed;
 }
 
-
-.food-card:hover {
-  background-color: #000000;
-}
-
+/* Left Side Info */
 .food-left {
   display: flex;
   flex-direction: column;
 }
 
-.expiry {
-  font-size: 0.9rem;
-  color: #000000;
+.food-left strong {
+  font-size: 1.05rem;
+  color: #333;
 }
 
+.expiry {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Right Side: Delete */
 .food-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
+.food-link {
+  display: flex;
+  align-items: center; /* Aligns items vertically */
+}
+
+/* Food ID Styling */
 .food-id {
-  font-size: 0.85rem;
-  color: #10e082;
+  font-size: 0.8rem;
+  color: #999;
 }
 
+/* Delete Button */
 .delete-btn {
   background: #ff4d4f;
-  color: rgb(12, 2, 45);
+  color: #fff;
   border: none;
   border-radius: 50%;
   width: 28px;
   height: 28px;
+  font-size: 16px;
+  line-height: 28px;
+  text-align: center;
   cursor: pointer;
-  font-weight: bold;
+  /* transition: background 0.2s ease; */
 }
 
 .delete-btn:hover {
   background-color: #ff7875;
 }
+
+/* Fancy Header (h1) */
+h1 {
+  font-family: 'Brush Script MT', cursive;
+  font-size: 48px;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  margin-top: 30px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 3px;
+  width: 100%; /* Ensure the header stretches across the container */
+}
+
+/* To Center All the Content (Wrapper for Cards) */

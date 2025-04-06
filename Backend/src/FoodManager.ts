@@ -46,7 +46,7 @@ export class FoodManager  {
     }
   }
 
-  addFood(name: string, expiryDate: Date): Food {
+  addFood(name: string, expiryDate : Date): Food {
     const newFood: Food = {
       id: this.nextId++,
       name,

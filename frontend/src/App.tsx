@@ -86,8 +86,8 @@ function App() {
       <ul>
         {foods.map((food) => (
           <li key={food.id}>
-            <strong>{food.name}</strong> (expires {food.expiryDate})
-          </li>
+<strong>{food.name}</strong> (expires {new Date(food.expiryDate).toISOString().slice(0, 10)})
+</li>
         ))}
       </ul>
 

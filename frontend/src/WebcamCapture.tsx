@@ -56,7 +56,7 @@ export default function WebcamCapture({ fetchFoods }: WebcamCaptureProps) {
       });
   
       const data = await res.json();
-      setMessage(`✅ API Response: ${JSON.stringify(data)}`);
+      setMessage(`${JSON.stringify(data.message)}`);
     } catch (err) {
       console.error(err);
       setMessage('❌ Failed to send image to API');
@@ -82,7 +82,7 @@ export default function WebcamCapture({ fetchFoods }: WebcamCaptureProps) {
           <h3>Preview:</h3>
           <img src={capturedImage} alt="Captured" style={{ maxWidth: '100%' }} />
           <br />
-          <button onClick={handleSendToAPI}>🚀 Send to API</button>
+          <button onClick={handleSendToAPI}>ADD</button>
         </div>
       )}
 

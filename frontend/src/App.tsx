@@ -18,16 +18,13 @@ function App() {
 
   const [foods, setFoods] = useState<Food[]>([]);
 
-  // Fetch foods once when the component mounts
 
   const fetchFoods = async () => {
     try {
 
       const response = await fetch('http://localhost:3000/api/food/show');
       
-      // If there's a chance for non-200 responses, check response.ok
       if (!response.ok) {
-        // throw new Error(Server error: ${response.status} ${response.statusText});
       }
 
       const data = await response.json();
@@ -55,12 +52,10 @@ function App() {
         throw new Error(errorBody.message || 'Error adding food');
       }
 
-      // The server returns the newly created food item
       const newFood: Food = await response.json();
       console.log('Food added successfully:', newFood);
       fetchFoods();
       
-      // Clear the inputs
       setName('');
       setExpiryDate('');
     } catch (err) {
@@ -79,18 +74,49 @@ function App() {
 
 
 
+  const handleDelete = async (id: number) => {
+    try {
+      await fetch(`http://localhost:3000/api/food/${id}`, {
+        method: 'DELETE',
+      });
+      fetchFoods(); 
+    } catch (err) {
+      console.error('Failed to delete food:', err);
+    }
+  };
+
   return (
     <div>
       <h1>Food List</h1>
 
-      <ul>
-        {foods.map((food) => (
-          <li key={food.id}>
-<strong>{food.name}</strong> (expires {new Date(food.expiryDate).toISOString().slice(0, 10)})
-</li>
-        ))}
-      </ul>
+      <ul style={{ listStyle: 'none', padding: 0 }}>
+  {foods.map((food) => {
+    const expiry = new Date(food.expiryDate);
+    const today = new Date();
+    const daysLeft = Math.ceil((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
+    let statusClass = '';
+    if (daysLeft < 0) {
+      statusClass = 'red';
+    } else if (daysLeft <= 3) {
+      statusClass = 'orange';
+    } else {
+      statusClass = 'green';
+    }
+
+    return (
+      <li key={food.id} className={`food-card ${statusClass}`}>
+        <div className="food-left">
+          <strong>{food.name}</strong>
+          <div className="expiry">Expires: {expiry.toISOString().slice(0, 10)}</div>
+        </div>
+        <div className="food-right">
+          <button className="delete-btn" onClick={() => handleDelete(food.id)}>✖</button>
+        </div>
+      </li>
+    );
+  })}
+</ul>
       <form onSubmit={handleSubmit} style={{ textAlign: 'right' }}>
       <div>
         <label>Food Name: </label>

@@ -1,70 +1,125 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
+import AddFood from './Addfood';
+import CameraUpload from './WebcamCapture';
+import WebcamCapture from './WebcamCapture';
 
-function App() {
-  const [inputValue, setInputValue] = useState('');
-  const [inputValue2, setInputValue2] = useState('');
-  const [inputValue3, setInputValue3] = useState('');
-  const handleChange = (event) => {
-    setInputValue(event.target.value);
-  };
-  const handleChange2 = (event2) => {
-    setInputValue2(event2.target.value);
-  }
-  const handleChange3 = (event3) => {
-    setInputValue3(event3.target.value);
-  }
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-      <form>
-      <label htmlFor="my-text-input">Enter food:</label>
-      <input
-        type="text"
-        id="my-text-input"
-        value={inputValue}
-        onChange={handleChange}
-      />
-      <p>You entered: {inputValue}</p>
-    </form>
-    <form>
-      <label htmlFor="my-text-input">Enter expiration date:</label>
-      <input
-        type="text"
-        id="my-text-input"
-        value={inputValue2}
-        onChange={handleChange2}
-      />
-      <p>You entered: {inputValue2}</p>
-    </form>
-    <form>
-      <label htmlFor="my-text-input">Enter id:</label>
-      <input
-        type="text"
-        id="my-text-input"
-        value={inputValue3}
-        onChange={handleChange3}
-      />
-      <p>You entered: {inputValue3}</p>
-    </form>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface Food {
+  id: number;
+  name: string;
+  expiryDate: string;
 }
 
-export default App
+
+function App() {
+
+  const [foods, setFoods] = useState<Food[]>([]);
+
+  // Fetch foods once when the component mounts
+
+  const fetchFoods = async () => {
+    try {
+
+      const response = await fetch('http://localhost:3000/api/food/show');
+      
+      // If there's a chance for non-200 responses, check response.ok
+      if (!response.ok) {
+        // throw new Error(Server error: ${response.status} ${response.statusText});
+      }
+
+      const data = await response.json();
+      setFoods(data);
+    } catch (error) {
+      console.error('Error fetching foods:', error);
+    }
+  };
+
+
+  const [name, setName] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:3000/api/food', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, expiryDate }),
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.json();
+        throw new Error(errorBody.message || 'Error adding food');
+      }
+
+      // The server returns the newly created food item
+      const newFood: Food = await response.json();
+      console.log('Food added successfully:', newFood);
+      fetchFoods();
+      
+      // Clear the inputs
+      setName('');
+      setExpiryDate('');
+    } catch (err) {
+      console.error('Failed to add food:', err);
+    }
+  };
+
+
+
+
+  useEffect(() => {
+    
+
+    fetchFoods();
+  }, []); // Empty dependency array => run once on mount
+
+
+
+  return (
+    <div>
+      <h1>Food List</h1>
+
+      <ul>
+        {foods.map((food) => (
+          <li key={food.id}>
+            <strong>{food.name}</strong> (expires {food.expiryDate})
+          </li>
+        ))}
+      </ul>
+
+      <form onSubmit={handleSubmit} style={{ textAlign: 'right' }}>
+      <div>
+        <label>Food Name: </label>
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Bananas"
+          required
+        />
+      </div>
+
+      <div>
+        <label>Expiry Date (YYYY-MM-DD): </label>
+        <input
+          value={expiryDate}
+          onChange={(e) => setExpiryDate(e.target.value)}
+          placeholder="2025-12-31"
+          required
+        />
+      </div>
+
+      <button type="submit">Add Food</button>
+    </form>
+
+    <WebcamCapture/>
+    </div>
+  );
+
+
+}
+
+export default App;

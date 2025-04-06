@@ -1,9 +1,13 @@
 import type { Food } from './FoodInterface.ts';
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const DATA_FILE = path.join(__dirname, 'data', 'myData.json');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
+const DATA_FILE = path.join(__dirname, '..', '..', 'data', 'myData.json');
 
 export class FoodManager  {
   private foods: Food[] = [];

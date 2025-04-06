@@ -1,5 +1,9 @@
 import express from 'express';
 import router  from './src/routes/food.ts';
+import path from 'path';
+// console.log('__dirname:', __dirname); // should now work
+// console.log('path.join:', path.join(__dirname, 'test.txt'));
+
 
 const app = express();
 const PORT = 3000;

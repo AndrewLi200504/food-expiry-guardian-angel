@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "types" : "Backend/src/FoodInterface.ts",
   "scripts": {
   "start": "ts-node Backend/index.ts",
   "test": "mocha --require ts-node/register Backend/test/FoodManager.spec.ts"

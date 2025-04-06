@@ -115,7 +115,7 @@ function App() {
       <button type="submit">Add Food</button>
     </form>
 
-    <WebcamCapture/>
+    <WebcamCapture fetchFoods={fetchFoods} />
     </div>
   );
 

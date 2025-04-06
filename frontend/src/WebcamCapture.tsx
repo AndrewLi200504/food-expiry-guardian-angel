@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export default function WebcamCapture() {
+interface WebcamCaptureProps {
+  fetchFoods: () => Promise<void>;
+}
+
+export default function WebcamCapture({ fetchFoods }: WebcamCaptureProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
@@ -40,27 +44,24 @@ export default function WebcamCapture() {
 
   // Send image to backend
   const handleSendToAPI = async () => {
-    if (!canvasRef.current) return;
-
-    canvasRef.current.toBlob(async (blob) => {
-      if (!blob) return;
-
-      const formData = new FormData();
-      formData.append('image', blob, 'webcam.png');
-
-      try {
-        const res = await fetch('http://localhost:3000/analyze-image', {
-          method: 'POST',
-          body: formData,
-        });
-
-        const data = await res.json();
-        setMessage(`✅ API Response: ${JSON.stringify(data)}`);
-      } catch (err) {
-        console.error(err);
-        setMessage('❌ Failed to send image to API');
-      }
-    }, 'image/png');
+    if (!capturedImage) return; // this is a base64 data URL
+  
+    try {
+      const res = await fetch('http://localhost:3000/api/food/analyze-image', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ base64: capturedImage })
+      });
+  
+      const data = await res.json();
+      setMessage(`✅ API Response: ${JSON.stringify(data)}`);
+    } catch (err) {
+      console.error(err);
+      setMessage('❌ Failed to send image to API');
+    }
+    fetchFoods()
   };
 
   return (

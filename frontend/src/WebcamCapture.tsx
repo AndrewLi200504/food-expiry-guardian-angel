@@ -68,7 +68,6 @@ export default function WebcamCapture({ fetchFoods }: WebcamCaptureProps) {
     <div style={{ textAlign: 'center' }}>
       <h2>Webcam Photo Capture</h2>
 
-      {/* Live video */}
       <video ref={videoRef} autoPlay playsInline style={{ width: '100%', maxWidth: 400 }} />
 
       <br />

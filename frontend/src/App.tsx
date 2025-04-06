@@ -37,6 +37,8 @@ function App() {
 
   const [name, setName] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
+  const [updatedExpiryDate, setupdatedExpiryDate] = useState('');
+
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -63,14 +65,13 @@ function App() {
     }
   };
 
-
-
+ 
 
   useEffect(() => {
     
 
     fetchFoods();
-  }, []); // Empty dependency array => run once on mount
+  }, []); 
 
 
 
@@ -104,6 +105,21 @@ function App() {
       statusClass = 'green';
     }
 
+    function openInputField(id : number): import("react").ReactNode {
+     
+     return <div>
+      <label>Expiry Date (YYYY-MM-DD): </label>
+      <input
+        value={updatedExpiryDate}
+        onChange={(e) => setupdatedExpiryDate(e.target.value)}
+        placeholder="2025-12-31"
+        required
+
+      />
+  <button onClick={() => handleUpdate(id, updatedExpiryDate)}>Save</button>
+</div>
+      }
+
     return (
       <li key={food.id} className={`food-card ${statusClass}`}>
         <div className="food-left">
@@ -111,7 +127,14 @@ function App() {
           <div className="expiry">Expires: {expiry.toISOString().slice(0, 10)}</div>
         </div>
         <div className="food-right">
-          <button className="delete-btn" onClick={() => handleDelete(food.id)}>✖</button>
+        
+        
+        <button>
+
+        <button onClick={() => openInputField(food.id)}>Update</button>
+        </button>
+
+          <button className="delete-btn" onClick={() => handleDelete(food.id)}>X</button>
         </div>
       </li>
     );
@@ -149,3 +172,10 @@ function App() {
 }
 
 export default App;
+
+function handleUpdate(id: number, updatedExpiryDate: string): import("react").ReactNode {
+  fetch("/:id/:updated",(res,rep)=>{
+
+
+  })
+}
